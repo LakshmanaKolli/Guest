@@ -1,7 +1,9 @@
 package com.epam.guest.domain;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
@@ -15,13 +17,13 @@ import lombok.Setter;
 public class Guest {
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private long id;
 	
 	private String name;
 	
-	@OneToOne
-	@JoinColumn(name = "id")
+	@OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id", referencedColumnName = "id")
 	private GuestAddress address;
 	
 	private String phoneNumber;
