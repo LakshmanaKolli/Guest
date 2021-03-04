@@ -6,13 +6,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.epam.guest.dto.GuestDTO;
+import com.epam.guest.exception.GuestException;
 import com.epam.guest.response.SaveGuestResponse;
 
-import reactor.core.publisher.Mono;
-
-@RequestMapping("/default")
+@RequestMapping("/guests/api/v1")
 public interface GuestController {
 	
-	@PostMapping("/api/save")
-	public ResponseEntity<Mono<SaveGuestResponse>> saveGuest(@RequestBody GuestDTO guestDTO);
+	@PostMapping
+	public ResponseEntity<SaveGuestResponse> saveGuest(@RequestBody GuestDTO guestDTO) throws GuestException;
+
+	
 }

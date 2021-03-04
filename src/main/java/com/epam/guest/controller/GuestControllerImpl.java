@@ -7,20 +7,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.epam.guest.dto.GuestDTO;
+import com.epam.guest.exception.GuestException;
 import com.epam.guest.response.SaveGuestResponse;
 import com.epam.guest.service.GuestService;
 
-import reactor.core.publisher.Mono;
-
 @RestController
-@RequestMapping("/guest")
 public class GuestControllerImpl implements GuestController{
 	
 	@Autowired
 	private GuestService service;
 
 	@Override
-	public ResponseEntity<Mono<SaveGuestResponse>> saveGuest(GuestDTO guestDTO) {
+	public ResponseEntity<SaveGuestResponse> saveGuest(GuestDTO guestDTO) throws GuestException {
 		return new ResponseEntity<>(service.saveGuest(guestDTO),HttpStatus.CREATED);
 	}
 

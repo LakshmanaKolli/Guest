@@ -35,14 +35,5 @@ public class GuestServiceTest extends AbstractBaseTest{
 		assertEquals("Guest details saved successfully",guestResponse.getMessage());
 	}
 	
-//	@Test
-//	public void saveGuestDetails_unsuccessfull() throws Exception{
-//		Guest guest = getGuestDetails();
-//		GuestDTO guestDTO = getGuestDTODetails();
-//		Mockito.when(guestRepository.save(guest)).then()
-//		SaveGuestResponse guestResponse = guestService.saveGuest(guestDTO);
-//		assertEquals("Guest details saved successfully",guestResponse.getMessage());
-//	}
-	
 
 }

@@ -34,7 +34,7 @@ public class GuestControllerTest extends AbstractBaseTest{
 		saveGuestResponse.setMessage("Guest Details Saved");
 		Mockito.when(guestService.saveGuest(guest)).thenReturn(saveGuestResponse);
 		ObjectMapper mapper = new ObjectMapper();
-		mockMvc.perform(post("/guest/api/save").contentType(MediaType.APPLICATION_JSON)
+		mockMvc.perform(post("/guests/api/v1").contentType(MediaType.APPLICATION_JSON)
 				.content(mapper.writeValueAsString(guest))).andExpect(status().isCreated());
 	}
 }

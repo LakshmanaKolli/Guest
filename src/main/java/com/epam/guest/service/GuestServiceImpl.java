@@ -10,25 +10,31 @@ import com.epam.guest.mapper.GuestMapper;
 import com.epam.guest.repository.GuestRepository;
 import com.epam.guest.response.SaveGuestResponse;
 
-import net.bytebuddy.implementation.bytecode.Throw;
-import reactor.core.publisher.Mono;
-
 @Service
-public class GuestServiceImpl implements GuestService {
+public class GuestServiceImpl implements GuestService{
 
 	@Autowired
 	GuestMapper mapper;
-
+	
 	@Autowired
 	GuestRepository guestRepository;
 
-	public Mono<SaveGuestResponse> saveGuest(GuestDTO guestDTO) {
+	public SaveGuestResponse saveGuest(GuestDTO guestDTO) throws GuestException {
 		SaveGuestResponse finalResp = new SaveGuestResponse();
+		try {
 		Guest guestDomain = mapper.guestDTOtoGuest(guestDTO);
-		guestRepository.save(guestDomain).switchIfEmpty(Mono.error(new GuestException("Error saving guest details")))
-				.block();
-		finalResp.setMessage("Guest details saved successfully");
-		return Mono.just(finalResp);
+		Guest response = guestRepository.save(guestDomain);
+		if(response != null) {
+			finalResp.setMessage("Guest details saved successfully");
+		}
+		else {
+			finalResp.setMessage("Error saving guest details");
+		}
+		}
+		catch (Exception e) {
+			throw new GuestException(e.getMessage());
+		}
+		return finalResp;
 	}
 
 }
