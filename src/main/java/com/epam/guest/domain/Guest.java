@@ -12,7 +12,6 @@ import lombok.Data;
 import lombok.Setter;
 
 @Data
-@Setter
 @Entity(name = "guest")
 public class Guest {
 	

@@ -54,5 +54,19 @@ public class GuestServiceTest extends AbstractBaseTest{
 		Exception exception = assertThrows(NotFoundException.class, () -> guestService.getGuestById(1L));
 		assertEquals("Guest details not found for give id : 1", exception.getMessage());
 	}
+	
+	@Test
+	public void updateGuest_success() throws Exception{
+		long id = 1L;
+		Optional<Guest> guest = Optional.of(getGuestDetails());
+		Mockito.when(guestRepository.findById(id)).thenReturn(guest);
+		assertEquals("Guest details updated successfully", guestService.updateGuest(getGuestDTODetails(), id).getMessage());
+	}
+	
+	@Test
+	public void updateGuest_NotFoundException() throws Exception{
+		Exception exception = assertThrows(NotFoundException.class, () -> guestService.updateGuest(getGuestDTODetails(),1L));
+		assertEquals("Guest details not found for give id : 1", exception.getMessage());
+	}
 
 }

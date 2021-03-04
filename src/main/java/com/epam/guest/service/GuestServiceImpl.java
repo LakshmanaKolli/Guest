@@ -12,6 +12,7 @@ import com.epam.guest.exception.NotFoundException;
 import com.epam.guest.mapper.GuestMapper;
 import com.epam.guest.repository.GuestRepository;
 import com.epam.guest.response.SaveGuestResponse;
+import com.epam.guest.response.UpdateGuestResponse;
 
 @Service
 public class GuestServiceImpl implements GuestService{
@@ -47,6 +48,29 @@ public class GuestServiceImpl implements GuestService{
 			throw new NotFoundException(String.format("Guest details not found for give id : %s", guestId));
 		}
 		return mapper.guestToGuestDTO(guest.get());
+	}
+
+	@Override
+	public UpdateGuestResponse updateGuest(GuestDTO guestDTO, long id) throws NotFoundException, GuestException {
+		Optional<Guest> response = guestRepository.findById(id);
+		if(response.isEmpty()) {
+			throw new NotFoundException(String.format("Guest details not found for give id : %s", id));
+		}
+		Guest guest = response.get();
+		guest.setName(guestDTO.getName());
+		guest.setPhoneNumber(guestDTO.getPhoneNumber());
+		guest.getAddress().setArea(guestDTO.getAddress().getArea());
+		guest.getAddress().setCity(guestDTO.getAddress().getCity());
+		guest.getAddress().setCountry(guestDTO.getAddress().getCountry());
+		UpdateGuestResponse userResponse = new UpdateGuestResponse();
+		try {
+			guestRepository.save(guest);
+			userResponse.setMessage("Guest details updated successfully");
+		}
+		catch (Exception e) {
+			throw new GuestException(e.getMessage());
+		}
+		return userResponse;
 	}
 
 }

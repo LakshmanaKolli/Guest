@@ -10,8 +10,14 @@ public class GuestExceptionHandler {
 	
 	@ExceptionHandler(GuestException.class)
     public final ResponseEntity<Object> guestExceptionError(GuestException ex) {
-        ErrorResponse error = new ErrorResponse(ex.getMessage());
+        ErrorResponse error = new ErrorResponse(ex.getMessage(),500);
         return new ResponseEntity(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+	
+	@ExceptionHandler(NotFoundException.class)
+    public final ResponseEntity<Object> guestExceptionError(NotFoundException ex) {
+        ErrorResponse error = new ErrorResponse(ex.getMessage(),404);
+        return new ResponseEntity(error, HttpStatus.NOT_FOUND);
     }
 
 }
