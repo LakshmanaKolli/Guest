@@ -46,7 +46,7 @@ public class GuestServiceTest extends AbstractBaseTest{
 	public void getGuestById_success() throws Exception{
 		Optional<Guest> guest = Optional.of(getGuestDetails());
 		Mockito.when(guestRepository.findById(1L)).thenReturn(guest);
-		assertEquals(1L, guestService.getGuestById(1L).getId());
+		assertEquals("laxman", guestService.getGuestById(1L).getName());
 	}
 	
 	@Test

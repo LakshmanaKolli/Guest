@@ -18,7 +18,6 @@ public class AbstractBaseTest {
 	
 	public Guest getGuestDetails() {
 		Guest guest = new Guest();
-		guest.setId(1);
 		guest.setName("laxman");
 		guest.setPhoneNumber("9705307564");
 		return guest;
