@@ -8,9 +8,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.epam.guest.dto.GuestDTO;
 import com.epam.guest.response.SaveGuestResponse;
 
+import reactor.core.publisher.Mono;
+
 @RequestMapping("/default")
 public interface GuestController {
 	
 	@PostMapping("/api/save")
-	public ResponseEntity<SaveGuestResponse> saveGuest(@RequestBody GuestDTO guestDTO);
+	public ResponseEntity<Mono<SaveGuestResponse>> saveGuest(@RequestBody GuestDTO guestDTO);
 }

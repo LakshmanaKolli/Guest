@@ -10,6 +10,8 @@ import com.epam.guest.dto.GuestDTO;
 import com.epam.guest.response.SaveGuestResponse;
 import com.epam.guest.service.GuestService;
 
+import reactor.core.publisher.Mono;
+
 @RestController
 @RequestMapping("/guest")
 public class GuestControllerImpl implements GuestController{
@@ -18,7 +20,7 @@ public class GuestControllerImpl implements GuestController{
 	private GuestService service;
 
 	@Override
-	public ResponseEntity<SaveGuestResponse> saveGuest(GuestDTO guestDTO) {
+	public ResponseEntity<Mono<SaveGuestResponse>> saveGuest(GuestDTO guestDTO) {
 		return new ResponseEntity<>(service.saveGuest(guestDTO),HttpStatus.CREATED);
 	}
 

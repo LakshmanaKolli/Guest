@@ -5,35 +5,30 @@ import org.springframework.stereotype.Service;
 
 import com.epam.guest.domain.Guest;
 import com.epam.guest.dto.GuestDTO;
+import com.epam.guest.exception.GuestException;
 import com.epam.guest.mapper.GuestMapper;
 import com.epam.guest.repository.GuestRepository;
 import com.epam.guest.response.SaveGuestResponse;
 
+import net.bytebuddy.implementation.bytecode.Throw;
+import reactor.core.publisher.Mono;
+
 @Service
-public class GuestServiceImpl implements GuestService{
+public class GuestServiceImpl implements GuestService {
 
 	@Autowired
 	GuestMapper mapper;
-	
+
 	@Autowired
 	GuestRepository guestRepository;
 
-	public SaveGuestResponse saveGuest(GuestDTO guestDTO) {
+	public Mono<SaveGuestResponse> saveGuest(GuestDTO guestDTO) {
 		SaveGuestResponse finalResp = new SaveGuestResponse();
-		try {
 		Guest guestDomain = mapper.guestDTOtoGuest(guestDTO);
-		Guest response = guestRepository.save(guestDomain);
-		if(response != null) {
-			finalResp.setMessage("Guest details saved successfully");
-		}
-		else {
-			finalResp.setMessage("Error saving guest details");
-		}
-		}
-		catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-		return finalResp;
+		guestRepository.save(guestDomain).switchIfEmpty(Mono.error(new GuestException("Error saving guest details")))
+				.block();
+		finalResp.setMessage("Guest details saved successfully");
+		return Mono.just(finalResp);
 	}
 
 }
