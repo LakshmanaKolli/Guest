@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.epam.guest.dto.GuestDTO;
+import com.epam.guest.response.SaveGuestResponse;
 import com.epam.guest.service.GuestService;
 
 @RestController
@@ -17,7 +18,7 @@ public class GuestControllerImpl implements GuestController{
 	private GuestService service;
 
 	@Override
-	public ResponseEntity<Object> saveGuest(GuestDTO guestDTO) {
+	public ResponseEntity<SaveGuestResponse> saveGuest(GuestDTO guestDTO) {
 		return new ResponseEntity<>(service.saveGuest(guestDTO),HttpStatus.CREATED);
 	}
 
