@@ -14,6 +14,8 @@ import com.epam.guest.repository.GuestRepository;
 import com.epam.guest.response.SaveGuestResponse;
 import com.epam.guest.response.UpdateGuestResponse;
 
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+
 @Service
 public class GuestServiceImpl implements GuestService{
 
@@ -41,6 +43,7 @@ public class GuestServiceImpl implements GuestService{
 		return finalResp;
 	}
 
+	@CircuitBreaker(name = "GuestMS",fallbackMethod = "getGuestByIdFallback")
 	@Override
 	public GuestDTO getGuestById(long guestId) throws NotFoundException {
 		Optional<Guest> guest = guestRepository.findById(guestId);
@@ -48,6 +51,11 @@ public class GuestServiceImpl implements GuestService{
 			throw new NotFoundException(String.format("Guest details not found for give id : %s", guestId));
 		}
 		return mapper.guestToGuestDTO(guest.get());
+	}
+	
+	public GuestDTO getGuestByIdFallback(long guestId, Throwable tr) {
+		System.out.println("******fallback*******");
+		return new GuestDTO();
 	}
 
 	@Override

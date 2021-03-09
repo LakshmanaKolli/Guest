@@ -9,7 +9,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import lombok.Data;
-import lombok.Setter;
 
 @Data
 @Entity(name = "guest")

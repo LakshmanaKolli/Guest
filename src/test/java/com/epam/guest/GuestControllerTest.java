@@ -15,14 +15,10 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.epam.guest.domain.Guest;
 import com.epam.guest.dto.GuestDTO;
 import com.epam.guest.response.SaveGuestResponse;
 import com.epam.guest.response.UpdateGuestResponse;
 import com.epam.guest.service.GuestService;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import ch.qos.logback.core.status.Status;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest

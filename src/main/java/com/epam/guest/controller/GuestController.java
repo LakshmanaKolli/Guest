@@ -1,7 +1,5 @@
 package com.epam.guest.controller;
 
-import java.awt.print.Book;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.epam.guest.domain.Guest;
 import com.epam.guest.dto.GuestDTO;
 import com.epam.guest.exception.GuestException;
 import com.epam.guest.exception.NotFoundException;
