@@ -20,9 +20,12 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 
 @ApiResponse(description = "Guest service")
 @RequestMapping("/guests/api/v1")
+@SecurityRequirement(name = "bearerAuth")
 public interface GuestController {
 
 	@Operation(summary = "Saves guest details")
