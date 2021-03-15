@@ -1,8 +1,12 @@
 package com.epam.guest.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class GuestDTO {
 	
 	private long id;

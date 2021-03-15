@@ -1,5 +1,6 @@
 package com.epam.guest;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -9,7 +10,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -18,10 +21,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.epam.guest.dto.GuestDTO;
 import com.epam.guest.response.SaveGuestResponse;
 import com.epam.guest.response.UpdateGuestResponse;
+import com.epam.guest.security.JwtAuthSecurityConfigurer;
 import com.epam.guest.service.GuestService;
 
-@ExtendWith(SpringExtension.class)
-@WebMvcTest
+@SpringBootTest
+@AutoConfigureMockMvc
 public class GuestControllerTest extends AbstractBaseTest {
 	@Autowired
 	MockMvc mockMvc;
@@ -35,15 +39,19 @@ public class GuestControllerTest extends AbstractBaseTest {
 		SaveGuestResponse saveGuestResponse = new SaveGuestResponse();
 		saveGuestResponse.setMessage("Guest Details Saved");
 		Mockito.when(guestService.saveGuest(guest)).thenReturn(saveGuestResponse);
-		mockMvc.perform(post("/guests/api/v1").contentType(MediaType.APPLICATION_JSON)
-				.content(mapper.writeValueAsString(guest))).andExpect(status().isCreated());
+		mockMvc.perform(post("/guests/api/v1").header("Authorization",
+				"Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VybmFtZSIsImV4cCI6MTYxNTgyMDEyMCwiaWF0IjoxNjE1Nzg0MTIwfQ.c9pmJsaLA4AGgw4P86u7E4h1bw994ilAGhePp2S5tDCDau8V_7okVDEDtzD6N5YedM_2MDDtVhNjuXoxBzrJDg")
+				.contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(guest)))
+				.andExpect(status().isCreated());
 	}
 
 	@Test
 	public void getGuestById() throws Exception {
 		GuestDTO guest = getGuestDTODetails();
 		Mockito.when(guestService.getGuestById(1)).thenReturn(guest);
-		mockMvc.perform(get("/guests/api/v1/1")).andExpect(status().isOk());
+		mockMvc.perform(get("/guests/api/v1/1").header("Authorization",
+				"Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VybmFtZSIsImV4cCI6MTYxNTgyMDEyMCwiaWF0IjoxNjE1Nzg0MTIwfQ.c9pmJsaLA4AGgw4P86u7E4h1bw994ilAGhePp2S5tDCDau8V_7okVDEDtzD6N5YedM_2MDDtVhNjuXoxBzrJDg"))
+				.andExpect(status().isOk());
 	}
 
 	@Test
@@ -52,8 +60,10 @@ public class GuestControllerTest extends AbstractBaseTest {
 		long id = 1L;
 		UpdateGuestResponse response = new UpdateGuestResponse();
 		response.setMessage("Guest details updated successfully");
-		Mockito.when(guestService.updateGuest(guestDTO,id)).thenReturn(response);
-		mockMvc.perform(put("/guests/api/v1/guestDetails").param("id", String.valueOf(id)).contentType(MediaType.APPLICATION_JSON)
+		Mockito.when(guestService.updateGuest(guestDTO, id)).thenReturn(response);
+		mockMvc.perform(put("/guests/api/v1/guestDetails").header("Authorization",
+				"Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VybmFtZSIsImV4cCI6MTYxNTgyMDEyMCwiaWF0IjoxNjE1Nzg0MTIwfQ.c9pmJsaLA4AGgw4P86u7E4h1bw994ilAGhePp2S5tDCDau8V_7okVDEDtzD6N5YedM_2MDDtVhNjuXoxBzrJDg")
+				.param("id", String.valueOf(id)).contentType(MediaType.APPLICATION_JSON)
 				.content(mapper.writeValueAsBytes(guestDTO))).andExpect(status().isAccepted());
 	}
 

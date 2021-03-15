@@ -12,8 +12,5 @@ public class ErrorResponse {
 	private String message;
  
     private int statuCode;
-    
-    public ErrorResponse(String message) {
-    	this.message = message;
-    }
+
 }
